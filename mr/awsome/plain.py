@@ -145,7 +145,7 @@ class Instance(FabricMixin):
                 else:
                     password = getpass.getpass("Password for '%s@%s:%s': " % (user, host, port))
             except paramiko.AuthenticationException as e:
-                if not 'keyboard-interactive' in e.allowed_types:
+                if hasattr(e, 'allowed_types') and not 'keyboard-interactive' in e.allowed_types:
                     raise
                 password = getpass.getpass("Password for '%s@%s:%s': " % (user, host, port))
             except paramiko.BadHostKeyException:
